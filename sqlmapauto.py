@@ -6,7 +6,7 @@ import sys
 import time
 
 # --- CONFIGURATION ---
-SQLMAP_PATH = "python sqlmap/sqlmap.py" # Adjust if your path is different
+SQLMAP_PATH = "python sqlmap.py" # Adjusted to current directory
 PROXIES = [
     "socks5://oyyvimta:3olvpyzbkfhq@23.95.150.145:6114",
     "socks5://oyyvimta:3olvpyzbkfhq@198.23.239.134:6540",
