@@ -35,7 +35,14 @@ PATHS_TO_SCAN = [
     ("/public/up/", "Exposed Upload Directory"),
     (":8080/login/", "ISPConfig Admin Panel"),
     ("/phpmyadmin/", "Database Admin"),
-    ("/admin/", "General Admin Panel")
+    ("/admin/", "General Admin Panel"),
+    # Advanced Evasion & CVE Checks
+    ("/.env%00", "Laravel Config (Null Byte)"),
+    ("/.env;", "Laravel Config (Semicolon Bypass)"),
+    ("/public/..%2f.env", "Laravel Config (Directory Traversal)"),
+    ("/storage/logs/laravel.log", "Laravel Log File (Info Leak)"),
+    ("/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php", "PHPUnit RCE (CVE-2017-9841)"),
+    ("/_ignition/health-check", "Ignition Debug Mode (RCE Candidate)")
 ]
 
 # --- UTILS ---
