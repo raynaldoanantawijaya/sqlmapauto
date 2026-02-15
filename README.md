@@ -1,18 +1,25 @@
-# sqlmapauto: Advanced Automated Wrapper for SQLMap
+# sqlmapauto: Advanced Automated Wrapper for SQLMap & Site Hunter
 
-**sqlmapauto** is a powerful Python wrapper bundled with the full **SQLMap** source code. It is designed to automate SQL injection testing with advanced evasion techniques. It simplifies the process of using `sqlmap` by automatically handling proxy rotation, WAF bypass via tamper scripts, and header spoofing.
+**sqlmapauto** is now a comprehensive vulnerability suite. It includes the classic SQLMap automation wrapper and a new specialized tool, **Surakarta Hunter CLI**, for detecting complex web misconfigurations (WAF Bypass, Laravel .env exposure, ISPConfig detection).
 
 ## 🚀 Features
 
-*   **Smart WAF Bypass**: Automatically loads effective tamper scripts (`space2comment`, `between`, `randomcase`) to evade Web Application Firewalls.
-*   **Auto Proxy Rotation**: Randomly selects a high-anonymity SOCKS5/HTTP proxy from a built-in list for each scan.
-*   **Header Spoofing**: Injects randomized `User-Agent` and `X-Forwarded-For` headers to masquerade as legitimate traffic.
-*   **Built-in SQLMap**: No need to install SQLMap separately; the full engine is included in this repository.
-*   **One-Command-Run**: Pre-configured with optimized settings (`--level=3`, `--risk=2`, `--batch`, `--threads=5`) for maximum efficiency.
+### 1. sqlmapauto (SQL Injection)
+*   **Smart WAF Bypass**: Automatically loads effective tamper scripts.
+*   **Auto Proxy Rotation**: Randomly selects a high-anonymity SOCKS5/HTTP proxy.
+*   **One-Command-Run**: Optimized settings for maximum efficiency.
+
+### 2. Surakarta Hunter CLI (Web & Misconfiguration)
+*   **Laravel Evasion**: Bypasses WAF blocks on `.env` files using techniques like semicolon truncation (`/.env;`) and path traversal.
+*   **Admin Panel Detection**: Scans for ISPConfig (`:8080`), phpMyAdmin, and other admin portals.
+*   **MySQL Probing**: Checks for external database access via proxy.
 
 ## 📋 Requirements
-
 *   **Python 3.x**
+*   **Dependencies**: `requests`, `pysocks`
+    ```bash
+    pip install requests pysocks
+    ```
 
 ## 🛠️ Installation
 
@@ -23,26 +30,28 @@ cd sqlmapauto
 
 ## 💻 Usage
 
-Run the script by providing the target URL as an argument:
+### A. SQL Injection Scanning (sqlmapauto)
+Use this for specific URL targets with parameters (e.g., `?id=1`).
 
 ```bash
 python sqlmapauto.py <TARGET_URL>
 ```
-
-### Example
-
+*Example:*
 ```bash
-python sqlmapauto.py "http://example.com/vuln.php?id=1"
+python sqlmapauto.py "http://surakarta.go.id/news.php?id=12"
 ```
 
-The script will automatically:
-1.  Isolate a working proxy.
-2.  Generate a random fake IP for header spoofing.
-3.  Execute the internal `sqlmap.py` with the stealthiest configuration.
+### B. Full Site Vulnerability Scan (Surakarta Hunter)
+Use this to scan the domain for admin panels, config leaks, and open ports.
+
+```bash
+python surakarta_hunter.py
+```
+*The tool will automatically:*
+1.  Check for **ISPConfig** on port 8080.
+2.  Attempt to bypass WAF to read **Laravel .env** files.
+3.  Probe for **MySQL** (Port 3306) access.
+4.  Ask if you want to run `sqlmapauto` on a specific URL found.
 
 ## ⚠️ Disclaimer
-
-This tool is for educational purposes and authorized penetration testing only. Do not use this tool on targets you do not have permission to audit. The author is not responsible for any misuse.
-
----
-*Powered by [SQLMap](https://sqlmap.org)*
+This tool is for educational purposes and authorized penetration testing only. Do not use this tool on targets you do not have permission to audit. code authentication.
