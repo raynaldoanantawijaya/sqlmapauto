@@ -54,7 +54,7 @@ def run_sqlmap_auto(target_url):
           f"--level=2 --risk=2 " \
           f"--technique=B " \
           f"--not-string=\"Redirecting\" " \
-          f"--random-agent --proxy-fake-browser --no-cast " \
+          f"--random-agent --no-cast " \
           f"--batch --threads=5 --timeout=15" 
 
     # 3. Execution
