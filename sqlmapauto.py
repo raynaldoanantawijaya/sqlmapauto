@@ -61,7 +61,7 @@ def run_sqlmap_auto(target_url):
           f"--not-string=\"Redirecting\" " \
           f"--ignore-redirects " \
           f"--delay=1 " \
-          f"--random-agent --no-cast --hex " \
+          f"--random-agent --hex " \
           f"--batch --threads=1 --timeout=20" # Threads=1 agar lebih senyap
 
     # 3. Execution
